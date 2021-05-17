@@ -2,12 +2,14 @@
 
 A container image with [ClamAV](https://www.clamav.net) (open-source antivirus engine) binaries and linked libraries, for use with AWS Lambda container images.
 
+The base image used is `public.ecr.aws/lambda/provided:al2`, running Amazon Linux 2.
+
 The binaries are located under `/opt/bin/` and the linked libraries under `/opt/lib/`.
 
 
 ## Usage
 
-Copy the layer in a Dockerfile:
+Copy the Lambda layer in a Dockerfile:
 
 ```Dockerfile
 FROM public.ecr.aws/lambda/provided:al2
@@ -33,6 +35,8 @@ This project is licensed under the [Unlicense](UNLICENSE.md).
 ## Acknowledgments
 
 Based on:
+
+<https://github.com/upsidetravel/bucket-antivirus-function>
 
 <https://github.com/truework/lambda-s3-antivirus>
 
