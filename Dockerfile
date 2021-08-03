@@ -5,15 +5,16 @@ ARG LAYER_DIR="/opt"
 
 RUN \
   mkdir -p \
+    "${BUILD_DIR}" \
     "${LAYER_DIR}/bin" \
     "${LAYER_DIR}/lib"
 
 RUN \
-  mkdir -p "${BUILD_DIR}" && \
   cd "${BUILD_DIR}" && \
   yum install -y cpio yum-utils && \
   yum install -y https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm && \
   yum-config-manager --enable epel && \
+  rpm --import /etc/pki/rpm-gpg/*GPG* && \
   yumdownloader -x \*i686 --archlist=x86_64 \
     bzip2-libs \
     clamav \
