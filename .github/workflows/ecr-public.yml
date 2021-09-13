@@ -1,7 +1,7 @@
 name: Push to AWS Public ECR
 on: [push]
 jobs:
-  push-url-signer:
+  ecr-public:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
