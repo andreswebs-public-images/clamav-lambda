@@ -38,4 +38,4 @@ jobs:
         with:
           context: .
           push: true
-          tags: ${{ env.CONTAINER_REGISTRY }}/${{ env.CONTAINER_REPOSITORY }}:${{ env.IMAGE_TAG }},${{ env.CONTAINER_REGISTRY }}/${{ env.CONTAINER_REPOSITORY }}:${{ IMAGE_DEFAULT_TAG }}
+          tags: ${{ env.CONTAINER_REGISTRY }}/${{ env.CONTAINER_REPOSITORY }}:${{ env.IMAGE_TAG }},${{ env.CONTAINER_REGISTRY }}/${{ env.CONTAINER_REPOSITORY }}:${{ env.IMAGE_DEFAULT_TAG }}
