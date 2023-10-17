@@ -6,16 +6,19 @@ on:
     branches:
       - main
 
-env:
-  CONTAINER_REGISTRY: public.ecr.aws
-  CONTAINER_REPOSITORY: andreswebs/clamav-lambda
-  IMAGE_NAME: ${{ env.CONTAINER_REGISTRY }}/${{ env.CONTAINER_REPOSITORY }}
-  IMAGE_TAG: ${{ github.sha }}
-  IMAGE_DEFAULT_TAG: latest
-
 jobs:
+
   ecr-public:
+
     runs-on: ubuntu-latest
+
+    env:
+      CONTAINER_REGISTRY: public.ecr.aws
+      CONTAINER_REPOSITORY: andreswebs/clamav-lambda
+      IMAGE_NAME: ${{ env.CONTAINER_REGISTRY }}/${{ env.CONTAINER_REPOSITORY }}
+      IMAGE_TAG: ${{ github.sha }}
+      IMAGE_DEFAULT_TAG: latest
+
     steps:
 
       - name: Checkout
