@@ -1,6 +1,9 @@
 ---
 name: public.ecr.aws
 
+permissions:
+  id-token: write
+
 on:
   push:
     branches:
