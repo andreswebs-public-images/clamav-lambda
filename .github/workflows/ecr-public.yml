@@ -1,9 +1,23 @@
-name: Push to AWS Public ECR
-on: [push]
+---
+name: public.ecr.aws
+
+on:
+  push:
+    branches:
+      - main
+
+env:
+  CONTAINER_REGISTRY: public.ecr.aws
+  CONTAINER_REPOSITORY: andreswebs/clamav-lambda
+  IMAGE_NAME: ${{ env.CONTAINER_REGISTRY }}/${{ env.CONTAINER_REPOSITORY }}
+  IMAGE_TAG: ${{ github.sha }}
+  IMAGE_DEFAULT_TAG: latest
+
 jobs:
   ecr-public:
     runs-on: ubuntu-latest
     steps:
+
       - name: Checkout
         uses: actions/checkout@v4
 
@@ -11,21 +25,24 @@ jobs:
         uses: aws-actions/configure-aws-credentials@v4
         with:
           aws-region: ${{ secrets.AWS_REGION }}
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          role-to-assume: ${{ secrets.AWS_IAM_ROLE_ARN }}
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
 
       - name: Login to Public ECR
         uses: docker/login-action@v3
         with:
-          registry: public.ecr.aws
+          registry: ${{ env.CONTAINER_REGISTRY }}
 
-      - name: Build, tag, and push image to Amazon Public ECR
-        env:
-          ECR_REGISTRY: public.ecr.aws
-          ECR_REPOSITORY: andreswebs/clamav-lambda
-          IMAGE_TAG: ${{ github.sha }}
-        run: |
-          docker build -t "$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG" .
-          docker push "$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG"
-          docker tag "$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG" "$ECR_REGISTRY/$ECR_REPOSITORY:latest"
-          docker push "$ECR_REGISTRY/$ECR_REPOSITORY:latest"
+      - name: Build and push
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          registry: ${{ env.CONTAINER_REGISTRY }}
+          platforms: linux/amd64,linux/arm64
+          push: true
+          tags: ${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }},${{ env.IMAGE_NAME }}:${{ IMAGE_DEFAULT_TAG }}
+          cache-from: type=local,src=/tmp/.buildx-cache
+          cache-to: type=local,dest=/tmp/.buildx-cache
+          provenance: false

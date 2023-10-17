@@ -1,9 +1,17 @@
-name: dockerhub
+---
+name: docker.io
 
 on:
   push:
     branches:
       - main
+
+env:
+  CONTAINER_REGISTRY: docker.io
+  CONTAINER_REPOSITORY: andreswebs/clamav-lambda
+  IMAGE_NAME: ${{ env.CONTAINER_REGISTRY }}/${{ env.CONTAINER_REPOSITORY }}
+  IMAGE_TAG: ${{ github.sha }}
+  IMAGE_DEFAULT_TAG: latest
 
 jobs:
   dockerhub:
@@ -16,7 +24,7 @@ jobs:
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
 
-      - name: Login to DockerHub
+      - name: Login to Dockerhub
         uses: docker/login-action@v3
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
@@ -27,4 +35,4 @@ jobs:
         with:
           context: .
           push: true
-          tags: andreswebs/clamav-lambda:latest
+          tags: ${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }},${{ env.IMAGE_NAME }}:${{ IMAGE_DEFAULT_TAG }}
