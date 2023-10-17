@@ -15,7 +15,6 @@ jobs:
     env:
       CONTAINER_REGISTRY: public.ecr.aws
       CONTAINER_REPOSITORY: andreswebs/clamav-lambda
-      IMAGE_NAME: ${{ env.CONTAINER_REGISTRY }}/${{ env.CONTAINER_REPOSITORY }}
       IMAGE_TAG: ${{ github.sha }}
       IMAGE_DEFAULT_TAG: latest
 
@@ -45,7 +44,7 @@ jobs:
           registry: ${{ env.CONTAINER_REGISTRY }}
           platforms: linux/amd64,linux/arm64
           push: true
-          tags: ${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }},${{ env.IMAGE_NAME }}:${{ IMAGE_DEFAULT_TAG }}
+          tags: ${{ env.CONTAINER_REGISTRY }}/${{ env.CONTAINER_REPOSITORY }}:${{ env.IMAGE_TAG }},${{ env.CONTAINER_REGISTRY }}/${{ env.CONTAINER_REPOSITORY }}:${{ IMAGE_DEFAULT_TAG }}
           cache-from: type=local,src=/tmp/.buildx-cache
           cache-to: type=local,dest=/tmp/.buildx-cache
           provenance: false
