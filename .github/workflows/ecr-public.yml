@@ -5,9 +5,13 @@ permissions:
   id-token: write
 
 on:
+
   push:
     branches:
       - main
+
+  schedule:
+    - cron: 0 0 * * 0
 
 jobs:
 
