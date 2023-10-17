@@ -48,7 +48,6 @@ jobs:
         uses: docker/build-push-action@v5
         with:
           context: .
-          registry: ${{ env.CONTAINER_REGISTRY }}
           platforms: linux/amd64
           push: true
           provenance: false
