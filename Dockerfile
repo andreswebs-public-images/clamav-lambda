@@ -12,7 +12,7 @@ RUN \
 RUN \
     cd "${BUILD_DIR}" && \
     yum install -y cpio yum-utils && \
-    yum install -y https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm && \
+    yum install -y https://archives.fedoraproject.org/pub/archive/epel/7/x86_64/Packages/e/epel-release-7-14.noarch.rpm && \
     yum-config-manager --enable epel && \
     rpm --import /etc/pki/rpm-gpg/*GPG* && \
     yumdownloader -x \*i686 --archlist=x86_64 \
