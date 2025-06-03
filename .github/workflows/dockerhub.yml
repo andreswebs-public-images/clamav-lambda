@@ -2,6 +2,7 @@
 name: docker.io
 
 on:
+  workflow_dispatch:
 
   push:
     branches:
@@ -11,9 +12,7 @@ on:
     - cron: 0 0 * * 0
 
 jobs:
-
   dockerhub:
-
     runs-on: ubuntu-latest
 
     env:
@@ -23,7 +22,6 @@ jobs:
       IMAGE_DEFAULT_TAG: latest
 
     steps:
-
       - name: Checkout
         uses: actions/checkout@v4
 
